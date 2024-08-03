@@ -17,4 +17,13 @@ module.exports = {
       { allowConstantExport: true },
     ],
   },
+  overrides: [
+    {
+      // Override for shadcn-ui components
+      files: "./src/components/ui/*.tsx",
+      rules: {
+        "react/prop-types": 0,
+      },
+    },
+  ],
 };

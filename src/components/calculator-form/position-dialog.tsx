@@ -29,9 +29,7 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
-import { Direction, PositionFormSchema, type Position } from "./schema";
-
-export type { Position };
+import { Direction, PositionSchema, type Position } from "./schema";
 
 type Props = {
   onAdd: (position: Position) => void | Promise<void>;
@@ -42,7 +40,7 @@ export function PositionDialog({ onAdd: _onAdd, Trigger }: Props) {
   const [dialogOpen, setDialogOpen] = useState(false);
 
   const form = useForm<Position>({
-    resolver: zodResolver(PositionFormSchema),
+    resolver: zodResolver(PositionSchema),
     defaultValues: {},
   });
 
@@ -69,12 +67,20 @@ export function PositionDialog({ onAdd: _onAdd, Trigger }: Props) {
       <DialogTrigger asChild>{Trigger}</DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onAdd)}>
+          <form
+            onSubmit={(e) => {
+              // Since this form is nested inside another one, this is to prevent
+              // the parent form getting its submit callback triggered also.
+              // https://github.com/react-hook-form/react-hook-form/issues/1005#issuecomment-1012188940
+              e.stopPropagation();
+              return form.handleSubmit(onAdd)(e);
+            }}
+          >
             <DialogHeader className="items-start">
               <DialogTitle>Add a position</DialogTitle>
             </DialogHeader>
-            <div className="flex flex-col gap-4 py-8">
-              <div className="flex gap-4">
+            <div className="flex flex-col gap-8 py-8">
+              <div className="flex gap-6">
                 <FormField
                   name="direction"
                   control={form.control}
@@ -119,7 +125,7 @@ export function PositionDialog({ onAdd: _onAdd, Trigger }: Props) {
                           placeholder="e.g. 2.50"
                           type="number"
                           step=".01"
-                          className="w-32"
+                          className="w-36"
                           {...field}
                         />
                       </FormControl>
@@ -143,8 +149,8 @@ export function PositionDialog({ onAdd: _onAdd, Trigger }: Props) {
                       />
                     </FormControl>
                     <FormDescription>
-                      This point value should not be in decimal form. E.g. to
-                      open at <code>0.90400</code>, insert <code>90400</code>.
+                      E.g. to open at <code>0.90400</code>, insert{" "}
+                      <code>90400</code>.
                     </FormDescription>
                     <FormMessage />
                   </FormItem>

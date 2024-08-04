@@ -210,11 +210,11 @@ function PositionItem({ direction, lot, open, onRemove }: Props) {
     <div className="flex items-center justify-between border-b-[1px] py-4 first:border-t-[1px]">
       {direction === "buy" ? (
         <span className="flex items-center text-blue-600">
-          Buy <MoveUpRightIcon size={20} className="ml-0.5" />
+          Buy <MoveUpRightIcon size={18} className="ml-0.5" />
         </span>
       ) : (
         <span className="flex items-center text-red-500">
-          Sell <MoveDownRightIcon size={20} className="ml-0.5" />
+          Sell <MoveDownRightIcon size={18} className="ml-0.5" />
         </span>
       )}
       <div className="flex flex-col gap-0.5">
@@ -272,7 +272,10 @@ function RemovePositionDialog({
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={onConfirmRemove}>
+          <AlertDialogAction
+            onClick={onConfirmRemove}
+            className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+          >
             Yes, remove
           </AlertDialogAction>
         </AlertDialogFooter>
@@ -299,7 +302,10 @@ function ResetDialog({ onConfirmReset, Trigger }: ResetDialogProps) {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={onConfirmReset}>
+          <AlertDialogAction
+            onClick={onConfirmReset}
+            className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+          >
             Yes, reset
           </AlertDialogAction>
         </AlertDialogFooter>

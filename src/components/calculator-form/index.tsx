@@ -219,7 +219,7 @@ function PositionItem({ direction, lot, open, onRemove }: Props) {
       )}
       <div className="flex flex-col gap-0.5">
         <label className="text-sm font-medium text-muted-foreground">Lot</label>
-        <span>{lot}</span>
+        <span>{lot.toFixed(2)}</span>
       </div>
       <div className="flex flex-col gap-0.5">
         <label className="text-sm font-medium text-muted-foreground">
